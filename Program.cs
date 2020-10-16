@@ -5,7 +5,7 @@ namespace EstructsEnumsDataCollectionEvents
     class Program
     {
         enum Day { Sunday = 3, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday };
-        static void Main(string[] args)
+        static void Main05(string[] args)
         {
             Day favoriteDay = Day.Monday;
             favoriteDay = (Day)4;

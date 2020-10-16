@@ -6,7 +6,7 @@ namespace SpecializedCollectionClasses
 {
     public class Program
     {
-        static void Main03()
+        static void Main05()
         {
 
             //new Program().ListDictionaryCollection();
@@ -36,7 +36,6 @@ namespace SpecializedCollectionClasses
             // Display the contents of the collection using the Keys, Values, Count, and Item properties.
             Console.WriteLine("Displays the elements using the Keys, Values, Count, and Item properties:");
             PrintKeysAndValues3(myCol);
-
             // Copies the ListDictionary to an array with DictionaryEntry elements.
             DictionaryEntry[] myArr = new DictionaryEntry[myCol.Count];
             myCol.CopyTo(myArr, 0);
@@ -56,8 +55,8 @@ namespace SpecializedCollectionClasses
             Console.WriteLine();
 
             // Deletes a key.
-            myCol.Remove("Plums");
-            Console.WriteLine("The collection contains the following elements after removing \"Plums\":");
+            myCol.Remove("Fuji Apples");
+            Console.WriteLine("The collection contains the following elements after removing \"Fuji Apples\":");
             PrintKeysAndValues1(myCol);
 
             // Clears the entire collection.
@@ -98,7 +97,7 @@ namespace SpecializedCollectionClasses
             Console.WriteLine();
         }
         #endregion
-    
+
         #region StringCollection Specialized Collection Class
         public void StringCollectionExample()
         {
@@ -113,7 +112,6 @@ namespace SpecializedCollectionClasses
             // Display the contents of the collection using foreach. This is the preferred method.
             Console.WriteLine("Displays the elements using foreach:");
             PrintValues1(myCol);
-
             // Display the contents of the collection using the enumerator.
             Console.WriteLine("Displays the elements using the IEnumerator:");
             PrintValues2(myCol);
@@ -172,7 +170,7 @@ namespace SpecializedCollectionClasses
         // NOTE: The foreach statement is the preferred way of enumerating the contents of a collection.
         public static void PrintValues1(StringCollection myCol)
         {
-            foreach (Object obj in myCol)
+            foreach (var obj in myCol)
                 Console.WriteLine("   {0}", obj);
             Console.WriteLine();
         }

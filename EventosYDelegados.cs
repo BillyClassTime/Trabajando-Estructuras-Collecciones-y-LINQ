@@ -3,14 +3,14 @@ namespace EventosYDelegados
 {
     class Program
     {
-        public static void Main01()
+        public static void Main()
         {
             Coffee coffe = new Coffee
             {
                 Bean = "Dark",
                 CountryOfOrigin = "Colombia",
                 Strength = 4,
-                MinimunStockLevel = 15,
+                MinimunStockLevel = 5,
                 CurrentStockLevel = 20
             };
             //De la siguiente forma se puede suscribir al evento pero en la definición
@@ -27,15 +27,17 @@ namespace EventosYDelegados
         }
         public static void HandlerOutOutBean(Coffee cof, EventArgs e)
         {
-            Console.WriteLine($"Bean:{cof.Bean}-Nivel de grano muy bajo - alerta - {(e != null ? "roja" : "amarilla")}");
+            Console.WriteLine($"Bean:{cof.Bean}-Nivel de grano muy bajo - Event Arg - {(e != null ? "Con Valor" : "Nulo")}");
             Console.ReadLine();
         }
     }
-    public partial struct Coffee
+    public struct Coffee
     {
-        //Declara el evento y el delegado Pag. 3.19 mistake
-        public BooleanEventArgs e;
-        public delegate void OutOfBeanHandler(Coffee coffe, BooleanEventArgs args);
+        //Declara el evento y el delegado 
+        public CustomEventArgs e;
+        //public EventArgs e;
+        public delegate void OutOfBeanHandler(Coffee coffe, CustomEventArgs args);
+        //public delegate void OutOfBeanHandler(Coffee coffe, EventArgs args);
         public event OutOfBeanHandler OutOfBeans;
 
         public int CurrentStockLevel { get; set; }
@@ -64,17 +66,17 @@ namespace EventosYDelegados
 
                 //Similar of:
                 //OutOfBeans?.Invoke(this, null);
-                //e = new BooleanEventArgs(true);
+                e = new CustomEventArgs(true);
                 if (OutOfBeans != null)
                     OutOfBeans(this, e);
             }
         }
     }
-    public class BooleanEventArgs : EventArgs
+    public class CustomEventArgs : EventArgs
     {
         public bool Valor { get; set; }
 
-        public BooleanEventArgs(bool valor) : base()
+        public CustomEventArgs(bool valor) : base()
         {
             this.Valor = valor;
         }

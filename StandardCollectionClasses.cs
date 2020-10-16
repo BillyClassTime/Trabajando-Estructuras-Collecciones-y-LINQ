@@ -7,11 +7,12 @@ namespace StandardCollectionClasses
     class Program
     {
 
-        static void Main02()
+        static void Main01()
         {
             //new Program().ArrayListCollection();
             //new Program().HashTableCollection();
-            new Program().UsingLinQToQueryCollection();
+            //new Program().UsingLinQToQueryCollection();
+            new Program().UsingLinQFirstOrDefaultAndLastMethods();
 
         }
 
@@ -26,23 +27,37 @@ namespace StandardCollectionClasses
             Coffee coffee1 = new Coffee(4, "Arabica", "Columbia");
             Coffee coffee2 = new Coffee(3, "Arabica", "Vietnam");
             Coffee coffee3 = new Coffee(4, "Robusta", "Indonesia");
+            Coffee coffee4 = new Coffee(5, "Robusta", "Kenya");
+            TempRecord temps = new TempRecord("Miami");
             // Add the items to the collection.
             // Items are implicitly cast to the Object type when you add them.
             beverages.Add(coffee1);
             beverages.Add(coffee2);
             beverages.Add(coffee3);
+            beverages.Add(coffee4);
+            beverages.Add(temps);
+            beverages.Add(10);
             // Retrieve items from the collection.
             // Items must be explicitly cast back to their original type.
             Coffee firstCoffee = (Coffee)beverages[0];
             Coffee secondCoffee = (Coffee)beverages[1];
+            TempRecord firstTemps = (TempRecord)beverages[4];
+            Console.WriteLine($"Ciudad:{firstTemps.City}");
+            //Object cualquiervariable = "Cadena";
+
+            //Console.WriteLine(coffee4.CountryOfOrigin[2]); // A la variable Coffe4 posicion del campo pais de origen 2
+            Console.WriteLine(beverages[0]);
 
             // Iterating Over a List Collection 
-
-            foreach (Coffee coffee in beverages)
+            //foreach (Coffee coffee in beverages)
+            foreach(var coffee in beverages.OfType<Coffee>())
+            //foreach (dynamic coffee in beverages)
             {
-                Console.WriteLine("Bean type: {0}", coffee.Bean);
-                Console.WriteLine("Country of origin: {0}", coffee.CountryOfOrigin);
-                Console.WriteLine("Strength (1-5): {0}", coffee.Strength);
+                //if (typeof(Coffee) == coffee.GetType())                {
+                    Console.WriteLine("Bean type: {0}", coffee.Bean);
+                    Console.WriteLine("Country of origin: {0}", coffee.CountryOfOrigin);
+                    Console.WriteLine("Strength (1-5): {0}", coffee.Strength);
+                //}
             }
         }
 
@@ -60,11 +75,15 @@ namespace StandardCollectionClasses
             ingredients.Add("Irish Coffee", "Coffee, Whiskey, Cream, Sugar");
             ingredients.Add("Macchiato", "Coffee, Milk, Foam");
             // Check whether a key exists.
-            if (ingredients.ContainsKey("Café Mocha"))
+            string idKey = "Café Mocha";
+            //if (ingredients.ContainsKey(idKey))
+            if(ingredients.ContainsKey(idKey))
             {
                 // Retrieve the value associated with a key.
-                Console.WriteLine("The ingredients of a Café Mocha are: {0}", ingredients["Café Mocha"]);
+                Console.WriteLine("The ingredients of a Café Mocha are: {0}", ingredients[idKey]);
             }
+            Console.WriteLine("The ingredients of a Capuchino are: {0}", ingredients["Cappuccino"]);
+
 
             // Iterating Over a Dictionary Collection 
             foreach (string key in ingredients.Keys)
@@ -81,21 +100,33 @@ namespace StandardCollectionClasses
         {
             // Create a new Hashtable and add some drinks with prices.
             Hashtable prices = new Hashtable();
-            prices.Add("Café au Lait", 1.99M);
-            prices.Add("Caffe Americano", 1.89M);
             prices.Add("Café Mocha", 2.99M);
-            prices.Add("Cappuccino", 2.49M);
-            prices.Add("Espresso", 1.49M);
-            prices.Add("Espresso Romano", 1.59M);
-            prices.Add("English Tea", 1.69M);
             prices.Add("Juice", 2.89M);
+            prices.Add("Cappuccino", 2.49M);
             // Select all the drinks that cost less than $2.00, and order them by cost.
-            var bargains =
+            var bargains = 
              from string drink in prices.Keys
              where (Decimal)prices[drink] < 2.00M
              orderby prices[drink] ascending
              select drink;
-            // Display the results.
+            
+            Console.WriteLine("Select all the drinks that cost less than $2.00, and order them by cost.");
+            foreach (string bargain in bargains)
+            {
+                Console.WriteLine($"{bargain},{prices[bargain]:C}");
+            }
+
+            prices.Add("Café au Lait", 1.99M);
+            prices.Add("Caffe Americano", 1.89M);
+            prices.Add("Espresso", 1.49M);
+            prices.Add("English Tea", 1.69M);
+            prices.Add("Espresso Romano", 1.59M);
+            
+            //Ejemplo de uso del HashTable
+            string Key = "Café au Lait";
+            Console.WriteLine(prices[Key]);
+
+            // Display the results. del LINQ de la linea 111
             Console.WriteLine("Select all the drinks that cost less than $2.00, and order them by cost.");
             foreach (string bargain in bargains)
             {
@@ -103,6 +134,7 @@ namespace StandardCollectionClasses
             }
             Console.Write("Press any key...");
             Console.ReadLine();
+
             //Select all drinks start with letter C
             Console.WriteLine("Select all drinks start with letter C");
             var bargainsQ2 =
@@ -118,10 +150,10 @@ namespace StandardCollectionClasses
             // Select all the drinks that cost between $1.50 and $2.00 order by name
             Console.WriteLine("Select all the drinks that cost between $1.50 and $2.00 order by name");
             var bargainsQ3 =
-                from string drinkCost in prices.Keys
-                where (Decimal)prices[drinkCost] >= 1.50M && (Decimal)prices[drinkCost] <= 2.00M
-                orderby drinkCost
-                select drinkCost;
+                from string drink in prices.Keys
+                where (Decimal)prices[drink] >=  1.50M && (Decimal) prices[drink] <= 2.00M
+                orderby drink
+                select drink;
             foreach (string bargain in bargainsQ3)
             {
                 Console.WriteLine($"{bargain},{prices[bargain]:C}");
